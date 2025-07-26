@@ -62,11 +62,12 @@ const userSignIn = async (req, res) => {
 
     const { password: _pw, ...safeUser } = user.toObject();
     const token = jwt.sign(
-      { id: user._id, roles: user.roles },
+      { id: user._id, email: user.email },
       process.env.JWT_SECRET
     );
      res.cookie('token', token, {
         httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000
     });
     return res.status(200).json({
       message: "Logged in successfully.",
