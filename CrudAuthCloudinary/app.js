@@ -1,10 +1,16 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+const cookieParser = require("cookie-parser");
+const connectDB = require("./config/db.config");
+const userRoutes = require('./routers/user.router');
+connectDB();
 
-app.get('/', (req, res)=>{
-    res.send('working..');
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.listen(3000, ()=>{
-    console.log('running on 3000....');
-})
+app.use("/api/users", userRoutes);
+
+app.listen(3000, () => {
+  console.log("running on 3000....");
+});
